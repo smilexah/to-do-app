@@ -1,0 +1,19 @@
+.todoFormContauner {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.todoFormContauner form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todoFormContauner input {
+    width: 50%;
+    height: 30px;
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+}
