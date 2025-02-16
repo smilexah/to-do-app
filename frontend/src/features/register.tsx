@@ -13,7 +13,6 @@ type Props = {
 };
 
 const Register = ({ setSelected }: Props) => {
-    const [registerState, setRegisterState] = useState<"register" | "verify">("register");
     const [username, setUsername] = useState<string | null>(null);
     const { control, handleSubmit, formState: { isValid } } = useForm<RegisterRequest>({
         mode: 'onChange',
@@ -22,14 +21,15 @@ const Register = ({ setSelected }: Props) => {
     const [register, { isLoading, isError, error }] = useRegisterMutation();
 
     const onSubmit: SubmitHandler<RegisterRequest> = async (body) => {
-        await register(body)
-            .then(() => {
-                setUsername(body.username);
-                setRegisterState("register");
-            });
+        try {
+            await register(body).unwrap();
+            setUsername(body.username);
+            setSelected("login");
+        } catch (error) {
+            console.error("Registration failed:", error);
+        }
     };
 
-    if (registerState === "register") {
         return (
             <div className="flex justify-center items-center min-h-screen bg-gray-100">
                 <form
@@ -84,10 +84,7 @@ const Register = ({ setSelected }: Props) => {
                     </MyButton>
                 </form>
             </div>
-        );
-    }
-
-    return null;
+        )
 };
 
 export default Register;

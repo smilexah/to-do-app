@@ -9,18 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateTask creates a new task for the authenticated user
 func (s *AppService) CreateTask(ctx *gin.Context, req request.CreateTaskRequest) (*response.Response, int) {
 	userID, exists := ctx.Get("userID")
 	if !exists {
 		return &response.Response{
 			Error: "Unauthorized",
 		}, http.StatusUnauthorized
-	}
-
-	// Default priority to 1 if not provided
-	if req.Priority == 0 {
-		req.Priority = 1
 	}
 
 	task := models.Task{
@@ -43,24 +37,17 @@ func (s *AppService) CreateTask(ctx *gin.Context, req request.CreateTaskRequest)
 	}, http.StatusCreated
 }
 
-func (s *AppService) GetAllTasks(ctx *gin.Context) (*response.Response, int) {
-	userID, exists := ctx.Get("userID")
-	if !exists {
-		return &response.Response{
-			Error: "Unauthorized",
-		}, http.StatusUnauthorized
-	}
-
-	tasks, err := s.DBService.GetTasksByUserID(userID.(int))
+func (s *AppService) GetAllTasks(ctx *gin.Context, userID int) (*response.Response, int) {
+	tasks, err := s.DBService.GetTasksByUserID(userID)
 	if err != nil {
 		return &response.Response{
-			Error: "Failed to fetch tasks",
+			Message: "Failed to fetch tasks",
+			Error:   err.Error(),
 		}, http.StatusInternalServerError
 	}
 
 	return &response.Response{
-		Result:  tasks,
-		Message: "Tasks retrieved successfully",
+		Result: tasks,
 	}, http.StatusOK
 }
 

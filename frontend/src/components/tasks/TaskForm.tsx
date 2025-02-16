@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useCreateTaskMutation } from "../../app/features/task/taskApi";
+import {useCreateTaskMutation, useGetTasksQuery} from "../../app/features/task/taskApi";
 
 const TaskForm = () => {
     const [title, setTitle] = useState("");
     const [priority, setPriority] = useState(1);
     const [dueDate, setDueDate] = useState("");
     const [createTask] = useCreateTaskMutation();
+    const { refetch } = useGetTasksQuery();
 
     const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -15,6 +16,7 @@ const TaskForm = () => {
             setPriority(1);
             setDueDate("");
         }
+        refetch();
     };
 
     return (

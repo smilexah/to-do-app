@@ -9,6 +9,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import MyButton from "../components/ui/CustomButton";
 import { useLazyCurrentUserQuery } from "../app/features/user/userApi";
+import {useGetTasksQuery} from "../app/features/task/taskApi";
 
 type Props = {
     setSelected: (value: AuthType) => void;
@@ -16,6 +17,7 @@ type Props = {
 
 const Login = ({ setSelected }: Props) => {
     const navigate = useNavigate();
+    const { refetch } = useGetTasksQuery();
     const { control, handleSubmit, formState: { isValid } } = useForm<LoginRequest>({
         mode: 'onChange',
         defaultValues: {
@@ -28,11 +30,14 @@ const Login = ({ setSelected }: Props) => {
     const [triggerCurrentUser] = useLazyCurrentUserQuery();
 
     const onSubmit: SubmitHandler<LoginRequest> = async (body) => {
-        await login(body)
-            .then(() => {
-                triggerCurrentUser();
-                navigate("/");
-            });
+        try {
+            await login(body).unwrap();
+            await triggerCurrentUser().unwrap();
+            await refetch();
+            navigate("/");
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
     };
 
     return (

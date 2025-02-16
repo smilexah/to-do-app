@@ -23,7 +23,7 @@ const App = () => {
                     <Route index element={<Navigate to="login" replace />} />
                     <Route path="login" element={<Auth type="login"/>}/>
                     <Route path="register" element={<Auth type="register"/>}/>
-                    <Route path={"logout"} element={<Auth type="logout"/>}/>
+                    <Route path="logout" element={<Auth type="logout"/>}/>
                 </Route>
             </Routes>
             <Toaster richColors/>

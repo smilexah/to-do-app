@@ -6,7 +6,6 @@ import (
 	"to-do-app/models"
 )
 
-// CreateTask inserts a new task into the database
 func (s *DBService) CreateTask(task *models.Task) error {
 	query := `
 		INSERT INTO tasks (user_id, title, status, priority, due_date) 
@@ -23,7 +22,6 @@ func (s *DBService) CreateTask(task *models.Task) error {
 	return nil
 }
 
-// GetTasksByUserID retrieves all tasks for a specific user
 func (s *DBService) GetTasksByUserID(userID int) ([]models.Task, error) {
 	query := `
 		SELECT id, user_id, title, status, priority, due_date, created_at 
@@ -48,7 +46,6 @@ func (s *DBService) GetTasksByUserID(userID int) ([]models.Task, error) {
 	return tasks, nil
 }
 
-// GetTaskByID retrieves a single task by its ID and user ID
 func (s *DBService) GetTaskByID(taskID string, userID int) (*models.Task, error) {
 	query := `
 		SELECT id, user_id, title, status, priority, due_date, created_at 
@@ -69,7 +66,6 @@ func (s *DBService) GetTaskByID(taskID string, userID int) (*models.Task, error)
 	return &task, nil
 }
 
-// UpdateTask updates task details in the database
 func (s *DBService) UpdateTask(task *models.Task) error {
 	query := `
 		UPDATE tasks 
@@ -80,7 +76,6 @@ func (s *DBService) UpdateTask(task *models.Task) error {
 	return err
 }
 
-// DeleteTask deletes a task by ID and user ID
 func (s *DBService) DeleteTask(taskID string, userID int) error {
 	query := `DELETE FROM tasks WHERE id = $1 AND user_id = $2`
 	_, err := s.DB.Exec(query, taskID, userID)
