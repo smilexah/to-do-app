@@ -18,7 +18,7 @@ const taskSlice = createSlice({
     initialState,
     reducers: {
         resetTasks: (state) => {
-            state.tasks = []; // Reset properly to an empty array
+            state.tasks = [];
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +53,5 @@ const taskSlice = createSlice({
 export const { resetTasks } = taskSlice.actions;
 export default taskSlice.reducer;
 
-// Selectors
 export const selectTasks = (state: RootState) => state.tasks?.tasks || [];
 export const selectIsLoading = (state: RootState) => state.tasks?.isLoading || false;

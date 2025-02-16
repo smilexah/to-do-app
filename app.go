@@ -2,23 +2,23 @@ package main
 
 import (
 	"context"
-	// "firstApp/database"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-// App struct
 type App struct {
 	ctx context.Context
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{}
 }
 
 // startup is called at application startup
 func (a *App) startup(ctx context.Context) {
-	// Perform your setup here
-	a.ctx = ctx
+	runtime.LogInfo(ctx, "App is starting...")
+
+	// ✅ Execute JavaScript to clear localStorage
+	runtime.WindowExecJS(ctx, "localStorage.clear(); console.log('localStorage cleared on app start');")
 }
 
 // domReady is called after front-end resources have been loaded
