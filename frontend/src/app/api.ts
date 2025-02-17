@@ -37,10 +37,10 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
                 extraOptions
             );
 
-            const refreshData = refreshResult.data as LoginResponse;
+            if (!refreshResult.error && refreshResult.data && typeof refreshResult.data === 'object' && "token" in refreshResult.data) {
+                const refreshData = refreshResult.data as { token: string };
 
-            if (refreshData && refreshData.token) {
-                api.dispatch(resetToken(refreshResult));
+                api.dispatch(resetToken(refreshData));
 
                 result = await baseQueryWithRetry(args, api, extraOptions);
             } else {
