@@ -36,7 +36,6 @@ func main() {
 	// Setup routes
 	router := routes.SetupRoutes(cfg, db)
 
-	// ✅ Start the HTTP server in a separate goroutine
 	go func() {
 		log.Println("Starting HTTP Server on port", cfg.ServerPort)
 		if err := http.ListenAndServe(":"+cfg.ServerPort, router); err != nil {

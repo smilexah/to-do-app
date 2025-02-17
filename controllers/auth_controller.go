@@ -55,7 +55,6 @@ func (c *AppController) RefreshToken(ctx *gin.Context) {
 
 	ctx.SetCookie("RefreshToken", newRefreshToken, 3600*24*7, "", "", false, true)
 	ctx.IndentedJSON(code, res)
-
 }
 
 func (c *AppController) Logout(ctx *gin.Context) {
