@@ -24,8 +24,9 @@ go.work.sum
 # env file
 .env
 
-frontend/node_modules/
-frontend/.idea
-frontend/dist
+node_modules/
+.idea/
 
-.idea
+frontend/dist
+frontend/node_modules
+frontend/.idea
